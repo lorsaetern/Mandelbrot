@@ -104,9 +104,9 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
 {
 	if (count == MAX_ITER)
 	{
-		r = 225;
-		g = 222;
-		b = 222;
+		r = 0;
+		g = 0;
+		b = 0;
 	}
 	else
 	{
