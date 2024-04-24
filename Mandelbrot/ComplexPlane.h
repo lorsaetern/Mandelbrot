@@ -1,5 +1,5 @@
 #pragma once
-#pragma once
+
 #ifndef COMPLEXPLANE_H_INCLUDED
 #define COMPLEXPLANE_H_INCLUDED
 #include <iostream>
