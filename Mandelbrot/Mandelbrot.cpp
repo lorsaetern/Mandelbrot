@@ -16,13 +16,7 @@ int main()
 	int pixelHeight = VideoMode::getDesktopMode().height / 2;
 	VideoMode vm(pixelWidth, pixelHeight);
 	RenderWindow window(vm, "Mandelbrot", Style::Default);
-
-	//View view;
-	////view.setSize(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);
-	////view.setCenter(VideoMode::getDesktopMode().width / 2, VideoMode::getDesktopMode().height / 2);
-	//view.setSize(pixelWidth, pixelHeight);
-	//view.setCenter(pixelWidth / 2, pixelHeight / 2);
-	//window.setView(view);
+	Clock clock;
 
 	ComplexPlane complexPlane(pixelWidth, pixelHeight);
 
@@ -40,6 +34,7 @@ int main()
 	while (window.isOpen())
 	{
 		//User input
+		clock.restart();
 		Event event;
 		while (window.pollEvent(event))
 		{
@@ -73,7 +68,8 @@ int main()
 			window.close();
 		}
 
-		complexPlane.updateRender();
+		//complexPlane.updateRender();
+		complexPlane.multiThread();		//use this for multithreading, "complexPlane.updateRender();" function must be disabled
 		complexPlane.loadText(text1);
 
 		//Draw

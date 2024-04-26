@@ -1,6 +1,5 @@
 #include "ComplexPlane.h"
-//#include <SFML/Graphics/Text.hpp>
-//#include <SFML/Graphics/RenderTarget.hpp>
+#include <thread>
 
 using namespace sf;
 using namespace std;
@@ -62,6 +61,7 @@ void ComplexPlane::loadText(Text& text)
 		"\nLeft-click to zoom in" << "\nRight-click to zoom out" << endl;
 	text.setString(text_box.str());
 }
+/*
 void ComplexPlane::updateRender()
 {
 	int pixelHeight = m_pixel_size.y;
@@ -85,7 +85,7 @@ void ComplexPlane::updateRender()
 	}
 	m_state = DISPLAYING;
 }
-
+*/
 int ComplexPlane::countIteration(Vector2f coord)
 {
 	complex<double> c(coord.x, coord.y);
@@ -110,31 +110,31 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
 	}
 	else
 	{
-		if (count >= 0 && count < 17) // Purple / blue for low iteration counts
+		if (count >= 0 && count < 17)
 		{
 			r = 0;
 			g = 102;
 			b = 255;
 		}
-		else if (count >= 17 && count < 33) // Turquoise
+		else if (count >= 17 && count < 33)
 		{
 			r = 0;
 			g = 221;
 			b = 255;
 		}
-		else if (count >= 33 && count < 49) // Green
+		else if (count >= 33 && count < 49)
 		{
 			r = 0;
 			g = 255;
 			b = 128;
 		}
-		else if (count >= 49 && count < 64) // turq
+		else if (count >= 49 && count < 64)
 		{
 			r = 0;
 			g = 255;
 			b = 229;
 		}
-		else // Red for high iteration counts
+		else
 		{
 			r = 51;
 			g = 220;
@@ -154,4 +154,126 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 	float y = ((nY - a) / (bY - a)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y * 0.5);
 
 	return Vector2f(x, y);
+}
+
+void ComplexPlane::updateRender1()		//use this for multithreading, "void ComplexPlane::updateRender()" function must be disabled
+{
+	int startH = 0;
+	int startW = 0;
+	int endH = (m_pixel_size.y * 0.25);
+	int endW = (m_pixel_size.x);
+
+	if (m_state == CALCULATING)
+	{
+
+		for (int i = startH; i < endH; i++)
+		{
+			for (int j = startW; j < endW; j++)
+			{
+				m_vArray[j + i * m_pixel_size.x].position = { (float)j,(float)i };
+
+				Vector2f complex_coords = mapPixelToCoords(Vector2i(j, i));
+				int iterations = countIteration(complex_coords);
+				Uint8 r, g, b;
+
+				iterationsToRGB(iterations, r, g, b);
+				m_vArray[j + i * m_pixel_size.x].color = Color(r, g, b);
+			}
+		}
+	}
+	m_state = DISPLAYING;
+}
+
+void ComplexPlane::updateRender2()		//use this for multithreading, "void ComplexPlane::updateRender()" function must be disabled
+{
+	int startH = (m_pixel_size.y * 0.25);
+	int startW = 0;
+	int endH = (m_pixel_size.y * 0.5);
+	int endW = (m_pixel_size.x);
+
+	if (m_state == CALCULATING)
+	{
+
+		for (int i = startH; i < endH; i++)
+		{
+			for (int j = startW; j < endW; j++)
+			{
+				m_vArray[j + i * m_pixel_size.x].position = { (float)j,(float)i };
+
+				Vector2f complex_coords = mapPixelToCoords(Vector2i(j, i));
+				int iterations = countIteration(complex_coords);
+				Uint8 r, g, b;
+
+				iterationsToRGB(iterations, r, g, b);
+				m_vArray[j + i * m_pixel_size.x].color = Color(r, g, b);
+			}
+		}
+	}
+	m_state = DISPLAYING;
+}
+void ComplexPlane::updateRender3()		//use this for multithreading, "void ComplexPlane::updateRender()" function must be disabled
+{
+	int startH = (m_pixel_size.y * 0.5);
+	int startW = 0;
+	int endH = (m_pixel_size.y * 0.75);
+	int endW = (m_pixel_size.x);
+
+	if (m_state == CALCULATING)
+	{
+
+		for (int i = startH; i < endH; i++)
+		{
+			for (int j = startW; j < endW; j++)
+			{
+				m_vArray[j + i * m_pixel_size.x].position = { (float)j,(float)i };
+
+				Vector2f complex_coords = mapPixelToCoords(Vector2i(j, i));
+				int iterations = countIteration(complex_coords);
+				Uint8 r, g, b;
+
+				iterationsToRGB(iterations, r, g, b);
+				m_vArray[j + i * m_pixel_size.x].color = Color(r, g, b);
+			}
+		}
+	}
+	m_state = DISPLAYING;
+}
+void ComplexPlane::updateRender4()		//use this for multithreading, "void ComplexPlane::updateRender()" function must be disabled
+{
+	int startH = (m_pixel_size.y * 0.75);
+	int startW = 0;
+	int endH = (m_pixel_size.y);
+	int endW = (m_pixel_size.x);
+
+	if (m_state == CALCULATING)
+	{
+
+		for (int i = startH; i < endH; i++)
+		{
+			for (int j = startW; j < endW; j++)
+			{
+				m_vArray[j + i * m_pixel_size.x].position = { (float)j,(float)i };
+
+				Vector2f complex_coords = mapPixelToCoords(Vector2i(j, i));
+				int iterations = countIteration(complex_coords);
+				Uint8 r, g, b;
+
+				iterationsToRGB(iterations, r, g, b);
+				m_vArray[j + i * m_pixel_size.x].color = Color(r, g, b);
+			}
+		}
+	}
+	m_state = DISPLAYING;
+}
+void ComplexPlane::multiThread()		//use this for multithreading, "void ComplexPlane::updateRender()" function must be disabled
+{
+	thread thread1(&ComplexPlane::updateRender1, this);
+	thread thread2(&ComplexPlane::updateRender2, this);
+	thread thread3(&ComplexPlane::updateRender3, this);
+	thread thread4(&ComplexPlane::updateRender4, this);
+
+	thread1.join();
+	thread2.join();
+	thread3.join();
+	thread4.join();
 }

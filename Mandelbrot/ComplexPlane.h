@@ -9,6 +9,9 @@
 #include <vector>
 #include <complex>
 #include <cmath>
+#include <thread>
+#include <chrono>
+#include <cmath>
 
 using namespace sf;
 using namespace std;
@@ -30,7 +33,12 @@ public:
     void setCenter(Vector2i mousePixel);
     void setMouseLocation(Vector2i mousePixel);
     void loadText(Text& text);
-    void updateRender();
+    //void updateRender();      
+    void updateRender1();       //use this for multithreading, "void updateRender();" function must be disabled
+    void updateRender2();       //use this for multithreading, "void updateRender();" function must be disabled
+    void updateRender3();       //use this for multithreading, "void updateRender();" function must be disabled
+    void updateRender4();       //use this for multithreading, "void updateRender();" function must be disabled
+    void multiThread();         //use this for multithreading, "void updateRender();" function must be disabled
 private:
     int countIteration(Vector2f coord);
     void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
